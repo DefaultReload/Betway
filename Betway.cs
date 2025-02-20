@@ -10,17 +10,17 @@ class Program
         Console.Write("Enter potion power level: ");
         int power = int.Parse(Console.ReadLine());
         Console.WriteLine(IsMagicalPotion(power) ? "YES" : "NO");
-        Console.Write("Enter outcomes separated by space: ");
+        Console.Write("Enter outcomes: ");
         int[] outcomes = Console.ReadLine().Split().Select(int.Parse).ToArray();
-        int[] duplicates = FindDuplicateOutcomes(outcomes);
+        int[] duplicates = FindDuplicate(outcomes);
         Console.WriteLine($"[{duplicates[0]}, {duplicates[1]}]");
-        Console.Write("Enter a string to reformat: ");
+        Console.Write("Enter a string: ");
         string inputString = Console.ReadLine();
-        string reformattedString = ReformatAlternatingCase(inputString);
+        string reformattedString = Reformat(inputString);
         Console.WriteLine(reformattedString);
-        Console.Write("Enter book copies on the shelf separated by space: ");
+        Console.Write("Enter book copies: ");
         int[] shelf = Console.ReadLine().Split().Select(int.Parse).ToArray();
-        Console.WriteLine(CanOrganizeBooks(shelf) ? "YES" : "NO");
+        Console.WriteLine(OrganizeBooks(shelf) ? "YES" : "NO");
     }
 
    
@@ -29,7 +29,7 @@ class Program
         int root = (int)Math.Round(Math.Pow(power, 1.0 / 3.0));
         return root * root * root == power;
     }
-    static int[] FindDuplicateOutcomes(int[] outcomes){
+    static int[] FindDuplicate(int[] outcomes){
         HashSet<int> seen = new HashSet<int>();
         List<int> duplicates = new List<int>();
 
@@ -43,26 +43,26 @@ class Program
 
         return duplicates.ToArray();
     }
-    static string ReformatAlternatingCase(string s){
+    static string Reformat(string a){
         StringBuilder result = new StringBuilder();
         bool toUpper = true; 
-        foreach (char c in s)
+        foreach (char b in a)
         {
-            if (char.IsLetter(c))
+            if (char.IsLetter(b))
             {
-                result.Append(toUpper ? char.ToUpper(c) : char.ToLower(c));
+                result.Append(toUpper ? char.ToUpper(b) : char.ToLower(b));
                 toUpper = !toUpper; 
             }
             else
             {
-                result.Append(c);
+                result.Append(b);
             }
         }
 
         return result.ToString();
     }
 
-    static bool CanOrganizeBooks(int[] shelf)
+    static bool OrganizeBooks(int[] shelf)
     {
         Dictionary<int, int> frequency = new Dictionary<int, int>();
         foreach (int book in shelf)
@@ -75,14 +75,14 @@ class Program
         int gcd = frequency.Values.Aggregate(GCD);
         return gcd > 1; 
     }
-    static int GCD(int a, int b)
+    static int GCD(int num1, int num2)
     {
-        while (b != 0)
+        while (num2 != 0)
         {
-            int temp = b;
-            b = a % b;
-            a = temp;
+            int temp = num2;
+            num2 = num1 % num2;
+            num1 = temp;
         }
-        return a;
+        return num1;
     }
 }
